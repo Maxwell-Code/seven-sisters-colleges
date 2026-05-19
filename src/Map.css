@@ -306,6 +306,9 @@
   pointer-events: auto;
 }
 
+/* Tab bar hidden on desktop — only shown in mobile media query */
+.mobile-panel-tabs { display: none; }
+
 .college-panel__top {
   display: flex;
   flex-direction: column;
@@ -1023,4 +1026,169 @@
 .bib-item.is-open .bib-item__annotation {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ── Mobile layout (≤ 700 px) ────────────────────────────────────────────── */
+
+@media (max-width: 700px) {
+
+  /* Header — smaller text and tighter padding */
+  .map-header {
+    padding: 12px 14px 10px;
+  }
+
+  .map-header__title-box {
+    padding: 8px 20px 10px;
+  }
+
+  .map-header h1 {
+    font-size: 22px;
+    letter-spacing: 0.07em;
+  }
+
+  .map-header__motto {
+    font-size: 15px;
+    margin-top: 16px;
+  }
+
+  /* ── Panels become full-width bottom sheets ── */
+
+  .college-panel--left,
+  .college-panel--right {
+    left: 0;
+    right: 0;
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    border-radius: 20px 20px 0 0;
+    max-height: 58vh;
+    padding: 20px 18px 24px;
+    /* Slide up from below instead of in from sides */
+    transform: translateY(100%);
+    transition: transform 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.48s ease;
+  }
+
+  /* Drag-handle pill at top of bottom sheet */
+  .college-panel--left::before,
+  .college-panel--right::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(91, 45, 142, 0.2);
+    border-radius: 2px;
+    margin: -8px auto 14px;
+  }
+
+  .college-panel.is-visible {
+    transform: translateY(0);
+  }
+
+  /* Hide the inactive tab's panel */
+  .college-panel.mobile-hidden {
+    display: none;
+  }
+
+  /* ── Mobile tab bar ── */
+
+  .mobile-panel-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(91, 45, 142, 0.07);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+
+  .mobile-panel-tab {
+    flex: 1;
+    padding: 8px 10px;
+    border: none;
+    background: transparent;
+    border-radius: 7px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(91, 45, 142, 0.55);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .mobile-panel-tab.is-active {
+    background: rgba(91, 45, 142, 0.14);
+    color: #5b2d8e;
+  }
+
+  /* ── Back button — move to top-right corner ── */
+
+  .back-button {
+    bottom: auto;
+    top: 12px;
+    right: 12px;
+    left: auto;
+    transform: none;
+    width: 78px;
+    height: 42px;
+  }
+
+  .back-button:hover {
+    transform: scale(1.07);
+  }
+
+  /* ── Zoom controls — hidden on mobile (use pinch-to-zoom) ── */
+
+  .zoom-controls {
+    display: none;
+  }
+
+  /* ── Bib button — icon only ── */
+
+  .bib-btn {
+    padding: 12px;
+    border-radius: 50%;
+  }
+
+  .bib-btn span {
+    display: none;
+  }
+
+  /* ── Song / poem card — tighter padding ── */
+
+  .song-card {
+    padding: 44px 22px 48px;
+  }
+
+  /* ── Notable figure image — constrain to not fill the sheet ── */
+
+  .notable-figure__frame {
+    max-width: 130px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── Panel logo — slightly smaller ── */
+
+  .college-panel__logo {
+    max-height: 100px;
+  }
+
+  /* ── Body text — slightly smaller ── */
+
+  .college-panel__body,
+  .notable-figure__bio {
+    font-size: 14px;
+  }
+
+  /* ── Intro screen — scale down ── */
+
+  .intro-welcome__title {
+    font-size: 28px;
+  }
+
+  .intro-tip-card {
+    padding: 18px 20px;
+    gap: 16px;
+  }
 }

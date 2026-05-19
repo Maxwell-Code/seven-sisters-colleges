@@ -63,11 +63,13 @@ export default function Map() {
   const [openExtra, setOpenExtra] = useState(null)
   const [showBibliography, setShowBibliography] = useState(false)
   const [openBibItem, setOpenBibItem] = useState(null)
+  const [mobileTab, setMobileTab] = useState('about')
 
   function setActive(college) {
     activeCollegeRef.current = college
     setActiveCollege(college)
     setOpenExtra(null)
+    setMobileTab('about')
   }
 
   function dismissIntro() {
@@ -294,7 +296,11 @@ export default function Map() {
       </header>
 
       {/* Left panel — college description */}
-      <aside className={`college-panel college-panel--left${active ? ' is-visible' : ''}`}>
+      <aside className={`college-panel college-panel--left${active ? ' is-visible' : ''}${active && mobileTab !== 'about' ? ' mobile-hidden' : ''}`}>
+        <div className="mobile-panel-tabs">
+          <button className={`mobile-panel-tab${mobileTab === 'about' ? ' is-active' : ''}`} onClick={() => setMobileTab('about')}>About</button>
+          <button className={`mobile-panel-tab${mobileTab === 'notable' ? ' is-active' : ''}`} onClick={() => setMobileTab('notable')}>{active?.notablePanelLabel ?? 'Notable Alumnae'}</button>
+        </div>
         <div className="college-panel__top">
           {active?.logo && (
             <img className="college-panel__logo" src={active.logo} alt={`${active.name} logo`} />
@@ -311,7 +317,11 @@ export default function Map() {
       </aside>
 
       {/* Right panel — notable figure */}
-      <aside className={`college-panel college-panel--right${active ? ' is-visible' : ''}`}>
+      <aside className={`college-panel college-panel--right${active ? ' is-visible' : ''}${active && mobileTab !== 'notable' ? ' mobile-hidden' : ''}`}>
+        <div className="mobile-panel-tabs">
+          <button className={`mobile-panel-tab${mobileTab === 'about' ? ' is-active' : ''}`} onClick={() => setMobileTab('about')}>About</button>
+          <button className={`mobile-panel-tab${mobileTab === 'notable' ? ' is-active' : ''}`} onClick={() => setMobileTab('notable')}>{active?.notablePanelLabel ?? 'Notable Alumnae'}</button>
+        </div>
         <h2 className="college-panel__heading">{active?.notablePanelLabel ?? 'Notable Alumnae'}</h2>
         <div className="notable-figure">
           {active?.notableFigure?.image
