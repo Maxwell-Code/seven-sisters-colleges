@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef, useState, useMemo } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { COLLEGES } from './data/colleges.js'
@@ -24,6 +24,23 @@ const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4)
 //   >>   → closing curly quote (purple)
 //   //   → toggle italics (wrap subsequent text in <em> until next //)
 //   \n   → <br />
+function splitCoalesce(text, baseDelay = 0) {
+  return text.split('').map((char, i) =>
+    char === ' '
+      ? <span key={i}> </span>
+      : <span
+          key={i}
+          className="map-header__letter"
+          style={{
+            '--lx': `${(Math.random() - 0.5) * 110}px`,
+            '--ly': `${-(28 + Math.random() * 120)}px`,
+            '--lr': `${(Math.random() - 0.5) * 14}deg`,
+            animationDelay: `${baseDelay + Math.random() * 0.06}s`,
+          }}
+        >{char}</span>
+  )
+}
+
 function renderText(text) {
   let italic = false
   return text.split(/(<<|>>|\/\/|\n)/).map((token, i) => {
@@ -169,6 +186,15 @@ export default function Map() {
           <circle cx="22.5" cy="15.5" r="1.5"/>
         </svg>`
 
+        if (college.logo) {
+          el.classList.add('college-marker--has-logo')
+          const logoEl = document.createElement('img')
+          logoEl.className = 'college-marker__logo'
+          logoEl.src = college.logo
+          logoEl.alt = college.name + ' logo'
+          pinEl.appendChild(logoEl)
+        }
+
         el.appendChild(labelEl)
         el.appendChild(pinEl)
 
@@ -203,6 +229,17 @@ export default function Map() {
 
   const active = activeCollege
 
+  const titleLetters = useMemo(() => {
+    const text = active ? active.name : 'The Seven Sisters Colleges'
+    return text.split('').map((char) => ({
+      char,
+      x: `${(Math.random() - 0.5) * 110}px`,
+      y: `${-(28 + Math.random() * 120)}px`,
+      r: `${(Math.random() - 0.5) * 14}deg`,
+      delay: `${Math.random() * 0.08}s`,
+    }))
+  }, [active?.name])
+
   return (
     <div className="map-scene">
       <button className="info-btn" onClick={() => setShowIntro(true)} aria-label="Show introduction">
@@ -235,20 +272,35 @@ export default function Map() {
 
       <header className="map-header">
         <div className="map-header__inner">
-          <h1 key={active?.name ?? 'overview'}>
-            {active ? active.name : 'The Seven Sisters Colleges'}
-          </h1>
-          {active?.motto && (
-            <p className="map-header__motto" key={active.name + '-motto'}>
-              {renderText(active.motto)}
-            </p>
-          )}
+          <div className="map-header__title-box" key={active?.name ?? 'overview'}>
+            <h1>
+              {titleLetters.map(({ char, x, y, r, delay }, i) => (
+                <span
+                  key={i}
+                  className="map-header__letter"
+                  style={{ '--lx': x, '--ly': y, '--lr': r, animationDelay: delay }}
+                >
+                  {char}
+                </span>
+              ))}
+            </h1>
+            {active?.motto && (
+              <p className="map-header__motto">
+                {renderText(active.motto)}
+              </p>
+            )}
+          </div>
         </div>
       </header>
 
       {/* Left panel — college description */}
       <aside className={`college-panel college-panel--left${active ? ' is-visible' : ''}`}>
-        <h2 className="college-panel__heading">About</h2>
+        <div className="college-panel__top">
+          {active?.logo && (
+            <img className="college-panel__logo" src={active.logo} alt={`${active.name} logo`} />
+          )}
+          <h2 className="college-panel__heading">About</h2>
+        </div>
         {active?.extras?.filter(e => e.image || e.text).map((extra) => (
           <button key={extra.title} className='college-extra__trigger' onClick={() => setOpenExtra(extra.title)}>
             <span>{extra.title}</span>
@@ -292,11 +344,22 @@ export default function Map() {
         const extra = [...(active?.extras ?? []), ...(active?.notableExtras ?? [])].find(e => e.title === openExtra)
         if (!extra) return null
         const lines = extra.text ? extra.text.split('\n').filter(l => l.trim()) : []
+
+        // Gaps start wide and compress: first lines breathe, last lines rush in
+        const n = lines.length
+        let t = 0.05
+        const lineDelays = lines.map((_, i) => {
+          const d = t
+          const frac = n > 1 ? i / (n - 1) : 0
+          t += 0.28 + (0.05 - 0.28) * frac
+          return d
+        })
+
         return (
           <div className='song-overlay' onClick={() => setOpenExtra(null)}>
             <div className={`song-card${extra.image ? ' song-card--wide' : ''}`} onClick={e => e.stopPropagation()}>
               <button className='song-card__close' onClick={() => setOpenExtra(null)}>&times;</button>
-              <p className='song-card__label'>{extra.title}</p>
+              <p className='song-card__label'>{splitCoalesce(extra.title)}</p>
               <div className='song-card__divider' />
               {extra.image && (
                 <div className='song-card__image-wrap'>
@@ -306,22 +369,10 @@ export default function Map() {
               {lines.length > 0 && (
                 <div className='song-card__poem'>
                   {lines.map((line, i) => {
-                    const lineDelay = 0.15 + i * 0.38
-                    const COLORS = ['rgba(160,100,255,0.85)', 'rgba(255,220,140,0.85)', 'rgba(255,255,255,0.75)']
+                    const lineDelay = lineDelays[i]
                     return (
-                      <p key={i} className='song-card__line' style={{ animationDelay: `${lineDelay}s` }}>
-                        {Array.from({ length: 10 }, (_, j) => (
-                          <span key={j} className='line-particle' style={{
-                            '--p-delay': `${lineDelay + 0.06 + j * 0.03}s`,
-                            '--p-x': `${(Math.random() - 0.5) * 240}px`,
-                            '--p-y': `${-14 - Math.random() * 72}px`,
-                            '--p-size': `${1.5 + Math.random() * 2.8}px`,
-                            '--p-color': COLORS[j % 3],
-                            '--p-dur': `${1.1 + Math.random() * 0.9}s`,
-                            left: `${5 + Math.random() * 90}%`,
-                          }} />
-                        ))}
-                        {renderText(line)}
+                      <p key={i} className='song-card__line'>
+                        {splitCoalesce(line, lineDelay)}
                       </p>
                     )
                   })}

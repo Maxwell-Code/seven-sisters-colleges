@@ -21,8 +21,18 @@
 //   3. Set  logo: smithLogo  in the matching college object.
 //
 // ────────────────────────────────────────────────────────────────────────────
+
+//COLLEGE LOGOS
+import mountHolyokeLogo from '../assets/colleges/mount-holyoke-logo.png'
+import smithLogo from '../assets/colleges/smith-logo.png'
+import wellesleyLogo from '../assets/colleges/wellesley-logo.png'
+import radcliffeLogo from '../assets/colleges/radcliffe-logo.png'
+import vassarLogo from '../assets/colleges/vassar-logo.png'
+import barnardLogo from '../assets/colleges/barnard-logo.png'
+import brynMawrLogo from '../assets/colleges/bryn-mawr-logo.png'
+
+//NOTABLE FIGURE IMAGES
 import zoraImg from '../assets/colleges/zora-neale-hurston.jpg'
-// import radcliffeNewspaper from '../assets/colleges/radcliffe-newspaper.jpg'
 import marthaImg from '../assets/colleges/martha-carey-thomas.jpg'
 import francesImg from '../assets/colleges/frances-perkins.jpg'
 import helenImg from '../assets/colleges/helen-keller.jpg'
@@ -30,13 +40,16 @@ import gloriaImg from '../assets/colleges/gloria-steinem.jpg'
 import hilaryImg from '../assets/colleges/hilary-clinton.jpg'
 import ednaImg from '../assets/colleges/edna-st-vincent-millay.jpg'
 
+//EXTRAS
 import radcliffepaperImg from '../assets/colleges/radcliffe-paper.jpg'
+
+
 
 export const COLLEGES = [
   {
     name: 'Mount Holyoke',
     lngLat: [-72.5764, 42.2551],
-    logo: null,
+    logo: mountHolyokeLogo,
     motto: '<<That our daughters may be as corner stones,\npolished after the similitude of a palace>>\n(Psalm 144:12)',
     description: 'Mount Holyoke college is the oldest of the seven sister colleges, founded in 1837 by Mary Lyon in South Hadley Massachusetts. The college advocates for ideals of the collective rather than the individualism that capitalist and patriarchal society promotes.\n\nIn 2014 it was the first women`s college in the United States to accept all trans women and nonbinary applications. And while the college was originally an all women school—and the undergraduate program remains that way—now, any person of any gender may study in the graduate program of the college.',
     notableFigure: {
@@ -48,7 +61,7 @@ export const COLLEGES = [
   {
     name: 'Smith',
     lngLat: [-72.6382, 42.3189],
-    logo: null,
+    logo: smithLogo,
     motto: '<<Ἐν τῇ ἀρετῇ τὴν γνῶσιν>>\n(To Virtue, Knowledge)',
     description: 'Smith College was founded in 1871 via a bequest from Sophia Smith and opened in 1875.  It has an open curriculum focus, was the first women`s college to have an undergraduate degree in engineering and the first women`s college to join the NCAA.\n\nSmith also boasts a unique layout. As Helen Lefkowitz Horowitz says in //Alma Mater: Design and Experience in the Women`s Colleges// (1993), “Built in a town, rather than as Wellesley or Vassar on a country estate, Smith did not have a single seminary building, but rather a variety of buildings for different uses. Students lived in "cottages," structures designed inside and out to look like family dwellings. Smith broke the seminary`s disciplinary code and disposed of the structure of rules monitored by female faculty; as in a family, students lived by informal and unwritten rules” (Horowitz 34).\n\nIn 2010, Smith College earned the title of the largest women`s college in the United States with over 2,000 undergraduate students. It has retained that title and only grown in size since.',
     notableFigure: {
@@ -60,7 +73,7 @@ export const COLLEGES = [
   {
     name: 'Wellesley',
     lngLat: [-71.3065, 42.2951],
-    logo: null,
+    logo: wellesleyLogo,
     motto: '<<Non Ministrari sed Ministrare>>\n(Not to be ministered unto, but to minister)',
     description: 'Wellesley College was founded by Pauline and Henry Fowle Durant, originally named the “Wellesley Female Seminary” until the name was changed in 1873. Unlike many other “all women” colleges Wessesley has never had a male president over its 150 year long lifetime.\n\nRanked at #7 in liberal arts colleges nationwide, Wellesley focuses on educating women who would create the next breakthroughs in their given fields, and be ready to lead in the world and it has lived up to those same standards and continues to produce those results today.',
     notableFigure: {
@@ -72,7 +85,7 @@ export const COLLEGES = [
   {
     name: 'Radcliffe',
     lngLat: [-71.1223, 42.3758],
-    logo: null,
+    logo: radcliffeLogo,
     motto: '<<Veritas>>\n(Truth)',
     description: `Radcliffe College, located in Cambridge Massachusetts, was founded as a women\`s college in 1879. Originally named, “The Harvard Annex” it emerged from a fight for women to be able to earn degrees at a Harvard level. As Barabara Miller Solomon writes in //A history of women and higher education in America// (1985), “The undaunted determination of Mrs. Agassiz and her friends at the university brought the chartering of Radcliffe College in 1894 as a degree-granting institution to offer the equivalent of a Harvard degree; the corporation, though unwilling to give women its A.B., agreed to serve as 'Visitors' and to let Harvard's president countersign Radcliffe diplomas” (Solomon 55).\n\nIn 1999, just 27 years ago, Radcliffe officially merged with Harvard allowing women to get complete degrees and take full advantage of Hardvard\`s resources.`,
     extras: [
@@ -95,7 +108,7 @@ export const COLLEGES = [
   {
     name: 'Vassar',
     lngLat: [-73.8957, 41.6870],
-    logo: null,
+    logo: vassarLogo,
     motto: '<<Purity and Wisdom>>',
     description: 'Vassar college was founded as a women`s college in 1861 by Matthew Vassar in Poughkeepsie, New York. Vassar brought both incredible and (at the time) unique opportunities for women. Author Helen Lefkowitz Horowitz says in her book //Alma Mater: Design and Experience in the Women`s Colleges// (1993), “In 1865, when the first women came to Vassar College, they entered a community that differed from that of any college for men. As a true college, Vassar offered to women the full liberal arts curriculum, including the study of the ancient languages, taught by a faculty of professorial grade.” (Horowitz 180)\n\nIn 1969, Vassar became the first of Seven Sisters college to become co-educational.',
     notableFigure: {
@@ -113,7 +126,7 @@ export const COLLEGES = [
   {
     name: 'Barnard',
     lngLat: [-73.9634, 40.8090],
-    logo: null,
+    logo: barnardLogo,
     motto: '<<Ἑπομένη τῷ λογισμῷ>>\n(Following the way of reason)',
     description: 'Barnard College was founded by Annie Nathan Meyer and a group of young women looking to broaden their educational prospects in 1989. They pushed Columbia to build an affiliated college that accepted women and named it after the president of the University who had been advocating for women`s education for the majority of his impressive 25 year long term. //In A History of Women and Higher Education in America// (1985) Barabara Miller Solomon says, “[Barnard`s] academic status, like that of Radcliffe, derived from its connection with a prestigious male institution. But over the years one essential difference developed in that Barnard gained the right to recruit its own faculty. Radcliffe women were not awarded Harvard A.B.s until 1965, and the first women undergraduates were not admitted to Columbia until 1983; but Barnard still maintained a separate existence” (Solomon 54)\n\nNow, in 2026, Barnard College puts an emphasis on the importance of student voices in the community, encouraging each student to find their own voice through the Collective Advocacy Project. The school is also now independent from Columbia in almost all aspects aside from combined sports teams.',
     notableFigure: {
@@ -125,7 +138,7 @@ export const COLLEGES = [
   {
     name: 'Bryn Mawr',
     lngLat: [-75.31445475365415, 40.02788246794094],
-    logo: null,
+    logo: brynMawrLogo,
     notablePanelLabel: 'Notable Figure',
     motto: '<<Veritatem Dilexi>>\n(I Delight in the Truth)',
     description: 'Bryn Mawr college was founded on the bequest of Dr. Joseph Wight Taylor, and was originally a Quaker organization. But by 1893 it was no longer associated with any particular religious order. Since Bryn Mawr`s founding, it has offered graduate degrees—making it the first all women`s college where that level of education was available.\n\nIn 2015, Bryn Mawr became the fourth women`s college to accept transgender women and intersex applicants who identified as women. \n\nBryn Mawr currently has and has always had a focus on bringing out the individuality of women through education, with a particular focus on creating the next generation of women world leaders.',
